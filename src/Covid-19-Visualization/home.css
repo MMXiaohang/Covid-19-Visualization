@@ -1,0 +1,21 @@
+.top {
+  background-image: url("../assets/nvov.jpg");
+  height: 150px;
+  width: 100%;
+  background-size: cover;
+  text-align: center;
+  line-height: 36px;
+}
+.title {
+  font-size: 24px;
+  color: #fff;
+  font-weight: 500;
+  padding-top: 10%;
+  margin: 0;
+}
+.tip {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 400;
+  margin-top: 10px;
+}
