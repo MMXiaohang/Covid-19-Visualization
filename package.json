@@ -38,7 +38,9 @@
   ],
   "dependencies": {
     "@modern-js/runtime": "^1.0.0",
+    "antd": "^4.8.15",
     "antd-mobile": "^5.0.0-rc.23",
+    "axios": "^0.25.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
