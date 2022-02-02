@@ -1,6 +1,7 @@
 import { Tabs } from 'antd-mobile';
 import CovidNews from '@/covidNews/CovidNews';
-import './home.css';
+import CovidMap from '@/covidMap/CovidMap';
+import './Home.css';
 
 const Home = () => (
   // <Skeleton>
@@ -11,7 +12,7 @@ const Home = () => (
     </div>
     <Tabs>
       <Tabs.Tab title="疫情地图" key="covidMap">
-        疫情地图
+        <CovidMap />
       </Tabs.Tab>
       <Tabs.Tab title="最新消息" key="news">
         <CovidNews />
