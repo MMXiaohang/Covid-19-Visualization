@@ -1,5 +1,6 @@
 import { Divider } from 'antd-mobile';
 import Category from './components/Category';
+import MapComponent from './components/MapComponent';
 import style from './CovidMap.module.css';
 
 const infoColumn = [
@@ -22,6 +23,7 @@ const CovidMap: React.FC = () => (
       ))}
     </div>
     <Divider />
+    <MapComponent></MapComponent>
   </div>
 );
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
-import './home.css';
+import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
 
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
