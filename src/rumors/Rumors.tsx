@@ -3,6 +3,7 @@ import React from 'react';
 import rumor from './Rumors.module.css';
 
 export default function Rumors(props) {
+  console.log(props)
   const { rumorList } = props;
   const handleClick = item => () => {
     window.location.href = item.url;

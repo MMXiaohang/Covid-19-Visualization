@@ -1,20 +1,22 @@
 import { Tabs } from 'antd-mobile';
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
 import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
-
+import { getVirusDataOnTime } from '@/api/getData';
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
 
 const Home = () => {
   // state
-  const [rumorList, setRumorList] = React.useState([]);
-
+  const [rumorList, setRumorList] = useState([]);
+  const [staticCount, setStaticCount] = useState<any[]>([]);
+  const [currentTime, setCurrentTime] = useState('')
   // 初始化/拉取and更改状态
   const initData = () => {
     getRumorList();
+    getVirusData();
   };
 
   const getRumorList = async () => {
@@ -24,6 +26,21 @@ const Home = () => {
     const { newslist: rumorlist } = response.data;
     setRumorList(rumorlist);
   };
+
+  const getVirusData = async () =>{
+    const response = await getVirusDataOnTime()
+    const staticList = response.data.newslist[0].desc
+    const currentTime = staticList.createTime
+    const staticCount = [
+      { title: '确诊', count: staticList.confirmedCount, addNumber: staticList.confirmedIncr, color: '#e57471' },
+      { title: '疑似', count: 0, addNumber: staticList.seriousIncr, color: '#dda451' },
+      { title: '重症', count: 0, addNumber: 0, color: '#5d4037' },
+      { title: '死亡', count: staticList.deadCount, addNumber: staticList.deadIncr, color: '#919399' },
+      { title: '治愈', count: staticList.curedCount, addNumber: staticList.curedIncr, color: '#7ebe50' },
+    ];
+    setStaticCount(staticCount)
+    setCurrentTime(currentTime)
+  }
 
   React.useEffect(() => {
     initData();
@@ -39,7 +56,7 @@ const Home = () => {
       </div>
       <Tabs>
         <Tabs.Tab title="疫情地图" key="covidMap">
-          <CovidMap />
+          <CovidMap staticCount={staticCount} time={currentTime}/>
         </Tabs.Tab>
         <Tabs.Tab title="最新消息" key="news">
           <CovidNews />
