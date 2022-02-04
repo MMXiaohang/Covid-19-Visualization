@@ -67,6 +67,9 @@ const Home = () => {
         <Tabs.Tab title="疫情趋势" key="covidTrend">
           疫情趋势
         </Tabs.Tab>
+        <Tabs.Tab title="国外疫情" key="foreignCovid">
+          国外疫情
+        </Tabs.Tab>
       </Tabs>
     </div>
   );
