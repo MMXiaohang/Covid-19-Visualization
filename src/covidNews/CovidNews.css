@@ -117,3 +117,31 @@ main {
   margin: 0;
   padding: 0;
 }
+
+
+
+
+
+
+.newsItem {
+  margin-top: 20px;
+  width: 100%;
+  border: 5px, solid, #0f0f0f;
+
+}
+
+.newsBody {
+}
+
+.newsContent {
+  overflow: hidden;
+  color: rgb(73, 73, 73);
+  font-size: 14px;
+  margin-top: 0;
+  height: 80px;
+  line-height: 20px;
+}
+
+.newsSource, .newsTime {
+  color:grey;
+}

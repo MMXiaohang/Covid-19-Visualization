@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
-import './Home.css';
+import './home.css';
 import CovidMap from '@/covidMap/CovidMap';
 import { getVirusDataOnTime } from '@/api/getData';
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
@@ -13,10 +13,12 @@ const Home = () => {
   const [rumorList, setRumorList] = useState([]);
   const [staticCount, setStaticCount] = useState<any[]>([]);
   const [currentTime, setCurrentTime] = useState('')
+  const [newsList, setNewsList] = React.useState([]);
   // 初始化/拉取and更改状态
   const initData = () => {
     getRumorList();
     getVirusData();
+    getNewsList();
   };
 
   const getRumorList = async () => {
@@ -42,6 +44,15 @@ const Home = () => {
     setCurrentTime(currentTime)
   }
 
+  // 获取最新消息网络请求
+  const getNewsList = async () => {
+    const response = await axios.get(
+      `http://api.tianapi.com/ncov/index?key=${APIKEY}`,
+    );
+    const { newslist } = response.data;
+    setNewsList(newslist[0].news);
+  };
+
   React.useEffect(() => {
     initData();
     // 隔xx时间重新拉取数据
@@ -59,7 +70,7 @@ const Home = () => {
           <CovidMap staticCount={staticCount} time={currentTime}/>
         </Tabs.Tab>
         <Tabs.Tab title="最新消息" key="news">
-          <CovidNews />
+          <CovidNews newsList={newsList} />
         </Tabs.Tab>
         <Tabs.Tab title="辟谣信息" key="rumorInfo">
           <Rumors rumorList={rumorList} />
