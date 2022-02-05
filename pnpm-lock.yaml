@@ -14,10 +14,11 @@ specifiers:
   antd: ^4.8.15
   antd-mobile: ^5.0.0-rc.23
   axios: ^0.25.0
+  dayjs: ^1.10.7
   del-cli: ^4.0.1
+  echarts: ^5.3.0
   react: ^17.0.1
   react-dom: ^17.0.1
-  react-fast-scroll: ^1.0.3
   typescript: ^4
 
 dependencies:
@@ -29,9 +30,10 @@ dependencies:
   antd: registry.npmmirror.com/antd/4.18.5_react-dom@17.0.2+react@17.0.2
   antd-mobile: registry.npmmirror.com/antd-mobile/5.0.0-rc.25_react-dom@17.0.2+react@17.0.2
   axios: registry.npmmirror.com/axios/0.25.0
+  dayjs: registry.npmmirror.com/dayjs/1.10.7
+  echarts: registry.npmmirror.com/echarts/5.3.0
   react: registry.npmmirror.com/react/17.0.2
   react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
-  react-fast-scroll: registry.npmmirror.com/react-fast-scroll/1.0.3
 
 devDependencies:
   '@modern-js/app-tools': registry.npmmirror.com/@modern-js/app-tools/1.3.1_typescript@4.5.5
@@ -10344,12 +10346,6 @@ packages:
       webpack: registry.npmmirror.com/webpack/5.67.0
     dev: true
 
-  registry.npmmirror.com/core-decorators/0.20.0:
-    resolution: {integrity: sha512-7cp/Pz3AmQXjRwhAsFN+8ndRiBNyLxtZgC/fhKvrwQTf2ZlZma6LnimoJPrOqgxZ0tIeI9VvSs+QKe0OPJ0SuA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/core-decorators/-/core-decorators-0.20.0.tgz}
-    name: core-decorators
-    version: 0.20.0
-    dev: false
-
   registry.npmmirror.com/core-js-compat/3.20.3:
     resolution: {integrity: sha512-c8M5h0IkNZ+I92QhIpuSijOxGAcj3lgpsWdkCqmUTZNwidujF4r3pi6x1DCN+Vcs5qTS2XWWMfWSuCqyupX8gw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/core-js-compat/download/core-js-compat-3.20.3.tgz}
     name: core-js-compat
@@ -10827,6 +10823,15 @@ packages:
     version: 10.0.0
     engines: {node: '>=10'}
     dev: true
+
+  registry.npmmirror.com/echarts/5.3.0:
+    resolution: {integrity: sha512-zENufmwFE6WjM+24tW3xQq4ICqQtI0CGj4bDVDNd3BK3LtaA/5wBp+64ykIyKy3QElz0cieKqSYP4FX9Lv9MwQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/echarts/-/echarts-5.3.0.tgz}
+    name: echarts
+    version: 5.3.0
+    dependencies:
+      tslib: registry.npmmirror.com/tslib/2.3.0
+      zrender: registry.npmmirror.com/zrender/5.3.0
+    dev: false
 
   registry.npmmirror.com/electron-to-chromium/1.4.54:
     resolution: {integrity: sha512-jRAoneRdSxnpRHO0ANpnEUtQHXxlgfVjrLOnQSisw1ryjXJXvS0pJaR/v2B7S++/tRjgEDp4Sjn5nmgb6uTySw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/download/electron-to-chromium-1.4.54.tgz}
@@ -14117,15 +14122,6 @@ packages:
     version: 6.0.9
     dev: true
 
-  registry.npmmirror.com/react-fast-scroll/1.0.3:
-    resolution: {integrity: sha512-bRmMA3H3LyPjJhf2+KnMCZCcGXBLWB8izTe4JOaTqVZ+0d6FOJWZQ1T5iSpWdxRupNKnHcK3MeNtKHYSt9r1Gw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-fast-scroll/-/react-fast-scroll-1.0.3.tgz}
-    name: react-fast-scroll
-    version: 1.0.3
-    dependencies:
-      core-decorators: registry.npmmirror.com/core-decorators/0.20.0
-      lodash: registry.npmmirror.com/lodash/4.17.21
-    dev: false
-
   registry.npmmirror.com/react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-is/-/react-is-16.13.1.tgz}
     name: react-is
@@ -15065,6 +15061,12 @@ packages:
     name: tslib
     version: 1.14.1
 
+  registry.npmmirror.com/tslib/2.3.0:
+    resolution: {integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-2.3.0.tgz}
+    name: tslib
+    version: 2.3.0
+    dev: false
+
   registry.npmmirror.com/tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tslib/-/tslib-2.3.1.tgz}
     name: tslib
@@ -15475,3 +15477,11 @@ packages:
       y18n: registry.nlark.com/y18n/5.0.8
       yargs-parser: registry.npmmirror.com/yargs-parser/20.2.9
     dev: true
+
+  registry.npmmirror.com/zrender/5.3.0:
+    resolution: {integrity: sha512-Ln2QB5uqI1ftNYMtCRxd+XDq6MOttLgam2tmhKAVA+j0ko47UT+VNlDvKTkqe4K2sJhBvB0EhYNLebqlCTjatQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/zrender/-/zrender-5.3.0.tgz}
+    name: zrender
+    version: 5.3.0
+    dependencies:
+      tslib: registry.npmmirror.com/tslib/2.3.0
+    dev: false

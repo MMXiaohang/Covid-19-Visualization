@@ -17,11 +17,7 @@
       "@modern-js"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  "husky": {},
   "lint-staged": {
     "*.{ts,tsx}": [
       "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet",
@@ -45,6 +41,8 @@
     "antd": "^4.8.15",
     "antd-mobile": "^5.0.0-rc.23",
     "axios": "^0.25.0",
+    "dayjs": "^1.10.7",
+    "echarts": "^5.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
