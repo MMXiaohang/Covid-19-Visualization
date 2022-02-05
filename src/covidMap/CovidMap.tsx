@@ -1,6 +1,7 @@
 import { Divider } from 'antd-mobile';
 import { Key, useEffect, useState } from 'react';
 import Category, { CategoryProps } from './components/Category';
+import DataTable from './components/DataTable';
 import MapComponent from './components/MapComponent';
 import style from './CovidMap.module.css';
 import dayjs from 'dayjs'
@@ -11,8 +12,8 @@ import 'echarts/lib/component/visualMap'
 
 type EChartsOption = echarts.EChartsOption;
 
-const CovidMap = (props: { staticCount: any; time: any; dataForMap:any}) => {
-  const {staticCount, time, dataForMap} = props
+const CovidMap = (props: { staticCount: any; time: any; dataForMap:any; dataForTable:any}) => {
+  const {staticCount, time, dataForMap, dataForTable} = props
   const mapOption = () => {
     let option:EChartsOption
     option = {
@@ -75,6 +76,7 @@ const CovidMap = (props: { staticCount: any; time: any; dataForMap:any}) => {
     </div>
     <Divider />
     <MapComponent option={mapOption()}></MapComponent>
+    <DataTable tableData={dataForTable}></DataTable>
   </div>
   )
 }

@@ -19,6 +19,7 @@ const Home = () => {
   const [currentTime, setCurrentTime] = useState('')
   const [mapData, setMapData] = useState<any[]>([])
   const [newsList, setNewsList] = useState([]);
+  const [tableData, setTableData] = useState<any[]>([])
   // 记录当前生命周期中的rumorlist&page的值
   const ref = React.useRef({ rumorList, rumorPage });
   // 初始化/拉取and更改状态
@@ -63,14 +64,43 @@ const Home = () => {
       name:string,
       value:number
     }
+    interface talbleItem {
+      area:string,
+      curConfirm:number,
+      allConfirm:number,
+      allDead:number,
+      allCure:number,
+      subList:any
+    }
     const response = await getAreaData()
     const dataList = response.data.retdata
     let dataForMap:mapItem[] = dataList.map((item: { xArea: any; curConfirm: any; }) => {
       return {name:item.xArea, value:parseInt(item.curConfirm)}
     })
-    console.log(mapData)
+    let dataForTable:talbleItem[] = dataList.map((item: { xArea: any; curConfirm: any; confirm: any; died: any; heal: any; subList: any; }, index) => {
+      const subList = item.subList
+      // console.log(subList)
+      let subData:talbleItem[] = subList.map((item: { city: any; curConfirm: string; confirm: string; died: string; heal: string; }, key: any) => {
+        return {
+          key:item.city,
+          area: item.city,
+          curConfirm: parseInt(item.curConfirm),
+          allConfirm:parseInt(item.confirm),
+          allDead:parseInt(item.died),
+          allCure:parseInt(item.heal)
+        }
+      })
+      return {
+        key:index,
+        area:item.xArea,
+        curConfirm:parseInt(item.curConfirm),
+        allConfirm:parseInt(item.confirm),
+        allDead:parseInt(item.died),
+        allCure:parseInt(item.heal),
+        children:subData}
+    })
     setMapData(dataForMap)
-    console.log(mapData)
+    setTableData(dataForTable)
   };
 
   // 获取最新消息网络请求
@@ -104,7 +134,7 @@ const Home = () => {
       </div>
       <Tabs>
         <Tabs.Tab title="疫情地图" key="covidMap">
-          <CovidMap staticCount={staticCount} time={currentTime} dataForMap={mapData}/>
+          <CovidMap staticCount={staticCount} time={currentTime} dataForMap={mapData} dataForTable={tableData}/>
         </Tabs.Tab>
         <Tabs.Tab title="最新消息" key="news">
           <CovidNews newsList={newsList} />
