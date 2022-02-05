@@ -6,6 +6,7 @@ import Rumors from '@/rumors/Rumors';
 import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
 import { getVirusDataOnTime,getAreaData  } from '@/api/getData';
+import ForeignCovid from '@/foreignCovid/ForeignCovid';
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
 
 const Home = () => {
@@ -98,7 +99,7 @@ const Home = () => {
           疫情趋势
         </Tabs.Tab>
         <Tabs.Tab title="国外疫情" key="foreignCovid">
-          国外疫情
+          <ForeignCovid />
         </Tabs.Tab>
       </Tabs>
     </div>
