@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
+const ForeignAPIKEY = '35e12e0db4498fc7c91609cc76ec546a';
 // 获取疫情实时数据
 export function getVirusDataOnTime() {
   return axios({
@@ -15,7 +16,6 @@ export function getVirusDataStatic() {
     url: `http://api.tianapi.com/txapi/ncovcity/index?key=${APIKEY}`,
   });
 }
-
 
 // 获取疫情统计数据
 export function getRumor(rumorPage: number | number) {
@@ -48,5 +48,13 @@ export function getVirusDataList() {
   return axios({
     method: 'get',
     url: `http://api.tianapi.com/ncov/index?key=${APIKEY}`,
+  });
+}
+
+// 获取海外疫情数据
+export function getForeignCovidData() {
+  return axios({
+    method: 'get',
+    url: `http://api.tianapi.com/ncovabroad/index?key=${ForeignAPIKEY}`,
   });
 }
