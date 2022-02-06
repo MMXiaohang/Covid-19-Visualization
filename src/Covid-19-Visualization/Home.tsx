@@ -5,7 +5,7 @@ import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
 import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
-import { getRumor, getVirusDataOnTime, getAreaData } from '@/api/getData';
+import { getRumor, getVirusDataOnTime, getAreaData, getAreaDataTX } from '@/api/getData';
 
 import ForeignCovid from '@/foreignCovid/ForeignCovid';
 
@@ -97,54 +97,42 @@ const Home = () => {
       allCure: number;
       subList: any;
     }
-    const response = await getAreaData();
-    const dataList = response.data.retdata;
+    const response = await getAreaDataTX();
+    console.log(response)
+    const dataList = response.data.showapi_res_body.todayDetailList;
     const dataForMap: mapItem[] = dataList.map(
-      (item: { xArea: any; curConfirm: any }) => ({
-        name: item.xArea,
-        value: parseInt(item.curConfirm),
+      (item: { provinceName: string; currentConfirmedNum: string; }) => ({
+        name: (item.provinceName === '黑龙江省' || item.provinceName === '内蒙古自治区') ? item.provinceName.substring(0,3) : item.provinceName.substring(0,2),
+        value: parseInt(item.currentConfirmedNum)
       }),
     );
     const dataForTable: talbleItem[] = dataList.map(
       (
-        item: {
-          xArea: any;
-          curConfirm: any;
-          confirm: any;
-          died: any;
-          heal: any;
-          subList: any;
-        },
-        index,
+        item: { locationId?: any; provinceName?: any; currentConfirmedNum?: any; confirmedNum?: any; deadNum?: any; curedNum?: any; cityList?: any; },
+        index: any,
       ) => {
-        const { subList } = item;
+        const { cityList } = item;
         // console.log(subList)
-        const subData: talbleItem[] = subList.map(
+        const subData: talbleItem[] = cityList.map(
           (
-            item: {
-              city: any;
-              curConfirm: string;
-              confirm: string;
-              died: string;
-              heal: string;
-            },
+            item: { cityName: any; confirmedNum: string; deadNum: string; curedNum: string; },
             key: any,
           ) => ({
-            key: item.city,
-            area: item.city,
-            curConfirm: parseInt(item.curConfirm),
-            allConfirm: parseInt(item.confirm),
-            allDead: parseInt(item.died),
-            allCure: parseInt(item.heal),
+            key: item.cityName + item.confirmedNum + item.deadNum,
+            area: item.cityName,
+            curConfirm: '暂无',
+            allConfirm: parseInt(item.confirmedNum),
+            allDead: parseInt(item.deadNum),
+            allCure: parseInt(item.curedNum),
           }),
         );
         return {
-          key: index,
-          area: item.xArea,
-          curConfirm: parseInt(item.curConfirm),
-          allConfirm: parseInt(item.confirm),
-          allDead: parseInt(item.died),
-          allCure: parseInt(item.heal),
+          key: item.locationId,
+          area: item.provinceName,
+          curConfirm: parseInt(item.currentConfirmedNum),
+          allConfirm: parseInt(item.confirmedNum),
+          allDead: parseInt(item.deadNum),
+          allCure: parseInt(item.curedNum),
           children: subData,
         };
       },

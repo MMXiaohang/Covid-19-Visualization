@@ -1,7 +1,6 @@
 import { Table } from 'antd';
 
 const columns = [
-
   {title:'地区', dataIndex:'area', key:'area'},
   {title:'现存确诊', dataIndex:'curConfirm', key:'curConfirm', sorter: {
     compare: (a: { curConfirm: number; }, b: { curConfirm: number; }) => a.curConfirm - b.curConfirm,

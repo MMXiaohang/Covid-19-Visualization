@@ -9,13 +9,19 @@ export interface CategoryProps {
 
 const Category = (infoItem: { info: CategoryProps }) => {
   const { info } = infoItem;
+  let describe;
+  if(info.addNumber >= 0){
+    describe = <span className={style.addNumber}>+{info.addNumber}</span>
+  }else{
+    describe = <span className={style.addNumber}>{info.addNumber}</span>
+  }
   return (
     <div style={{ color: info.color }} className={style.category}>
       <p>{info.title}</p>
       <p>{info.count}例</p>
       <p>
         <span className={style.tip}>较昨日</span>
-        <span className={style.addNumber}>+{info.addNumber}</span>
+        {describe}
       </p>
     </div>
   );

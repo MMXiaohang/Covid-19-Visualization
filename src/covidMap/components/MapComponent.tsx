@@ -10,7 +10,7 @@ const MapComponent = (props: {option:any}) => {
   const initChart = ()=> {
     const {option} = props
     echarts.registerMap('China', ChinaGeo)
-    let element = document.getElementById('mapChart')!;
+    let element = document.getElementById('mapChartHome')!;
     let myChart = echarts.init(element);
     myChart.clear()
     option && myChart.setOption(option,true)
@@ -20,7 +20,7 @@ const MapComponent = (props: {option:any}) => {
   })
 
   return (
-      <div id='mapChart' style={{ width: '100%', height: '300px' }}></div>
+      <div id='mapChartHome' style={{ width: '100%', height: '300px' }}></div>
   )
 };
 
