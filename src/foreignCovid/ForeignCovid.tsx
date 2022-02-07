@@ -7,57 +7,56 @@ import DataTable from './components/DataTable';
 import style from './foreignCovid.module.css';
 import { getVirusDataList, getForeignCovidData } from '@/api/getData';
 
-const ForeignCovid = () => {
-  const [staticCount, setStaticCount] = useState<any[]>([]);
+const ForeignCovid = (props: { foreignList: any; countryDataList: any }) => {
+  const { foreignList, countryDataList } = props;
+  const [foreignCount, setForeignCount] = useState<any[]>([]);
   const [foreignTable, setforeignTable] = useState<any[]>([]);
   const [currentTime, setCurrentTime] = useState('');
 
   const initData = () => {
-    getVirusData();
-    getCountryDataList();
+    getForeignCount();
+    getForeignTable();
   };
 
-  const getVirusData = async () => {
-    const response = await getVirusDataList();
-    const staticList = response.data.newslist[0].desc.foreignStatistics;
-    const currentTime = staticList.createTime;
-    const staticCount = [
+  const getForeignCount = () => {
+    const currentTime = foreignList.createTime;
+    const foreignCount = [
       {
         title: '现有确诊',
-        count: staticList.currentConfirmedCount,
-        addNumber: staticList.currentConfirmedIncr,
+        count: foreignList.currentConfirmedCount,
+        addNumber: foreignList.currentConfirmedIncr,
         color: '#e34565',
       },
       {
         title: '确诊',
-        count: staticList.confirmedCount,
-        addNumber: staticList.confirmedIncr,
+        count: foreignList.confirmedCount,
+        addNumber: foreignList.confirmedIncr,
         color: '#e57471',
       },
       {
         title: '疑似',
-        count: staticList.suspectedCount,
-        addNumber: staticList.suspectedIncr,
+        count: foreignList.suspectedCount,
+        addNumber: foreignList.suspectedIncr,
         color: '#dda451',
       },
       {
         title: '死亡',
-        count: staticList.deadCount,
-        addNumber: staticList.deadIncr,
+        count: foreignList.deadCount,
+        addNumber: foreignList.deadIncr,
         color: '#919399',
       },
       {
         title: '治愈',
-        count: staticList.curedCount,
-        addNumber: staticList.curedIncr,
+        count: foreignList.curedCount,
+        addNumber: foreignList.curedIncr,
         color: '#7ebe50',
       },
     ];
-    setStaticCount(staticCount);
+    setForeignCount(foreignCount);
     setCurrentTime(currentTime);
   };
 
-  const getCountryDataList = async () => {
+  const getForeignTable = () => {
     interface tableItem {
       country: string;
       allConfirm: number;
@@ -66,9 +65,7 @@ const ForeignCovid = () => {
       allCure: number;
     }
 
-    const response = await getForeignCovidData();
-    const dataList = response.data.newslist;
-    const dataForTable: tableItem[] = dataList.map(
+    const dataForTable: tableItem[] = countryDataList.map(
       (
         item: {
           country: any;
@@ -87,7 +84,6 @@ const ForeignCovid = () => {
         allCure: parseInt(item.curedCount),
       }),
     );
-    console.log(dataForTable);
     setforeignTable(dataForTable);
   };
 
@@ -103,7 +99,7 @@ const ForeignCovid = () => {
         截至{dayjs(currentTime).format('YYYY年MM月DD日 HH:mm')}(北京时间)统计
       </span>
       <div className={style.category}>
-        {staticCount.map(
+        {foreignCount.map(
           (item: CategoryProps, index: Key | null | undefined) => (
             <Category key={index} info={item} />
           ),

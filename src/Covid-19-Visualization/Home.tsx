@@ -5,7 +5,13 @@ import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
 import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
-import { getRumor, getVirusDataOnTime, getAreaData, getAreaDataTX } from '@/api/getData';
+import {
+  getRumor,
+  getVirusDataOnTime,
+  getAreaData,
+  getVirusDataList,
+  getForeignCovidData,
+} from '@/api/getData';
 
 import ForeignCovid from '@/foreignCovid/ForeignCovid';
 
@@ -20,6 +26,9 @@ const Home = () => {
   const [mapData, setMapData] = useState<any[]>([]);
   const [newsList, setNewsList] = useState([]);
   const [tableData, setTableData] = useState<any[]>([]);
+  const [foreignList, setForeignList] = useState<any[]>([]);
+  const [countryDataList, setCountryDataList] = useState<any[]>([]);
+
   // 记录当前生命周期中的rumorlist&page的值
   const ref = React.useRef({ rumorList, rumorPage });
   // 初始化/拉取and更改状态
@@ -28,6 +37,8 @@ const Home = () => {
     getVirusData();
     getNewsList();
     getAreaDataList();
+    getForeignData();
+    getCountryDataList();
   };
 
   const getRumorList = async (rumorPage_: number | number) => {
@@ -97,42 +108,55 @@ const Home = () => {
       allCure: number;
       subList: any;
     }
-    const response = await getAreaDataTX();
-    console.log(response)
-    const dataList = response.data.showapi_res_body.todayDetailList;
+    const response = await getAreaData();
+    const dataList = response.data.retdata;
     const dataForMap: mapItem[] = dataList.map(
-      (item: { provinceName: string; currentConfirmedNum: string; }) => ({
-        name: (item.provinceName === '黑龙江省' || item.provinceName === '内蒙古自治区') ? item.provinceName.substring(0,3) : item.provinceName.substring(0,2),
-        value: parseInt(item.currentConfirmedNum)
+      (item: { xArea: any; curConfirm: any }) => ({
+        name: item.xArea,
+        value: parseInt(item.curConfirm),
       }),
     );
+
     const dataForTable: talbleItem[] = dataList.map(
       (
-        item: { locationId?: any; provinceName?: any; currentConfirmedNum?: any; confirmedNum?: any; deadNum?: any; curedNum?: any; cityList?: any; },
-        index: any,
+        item: {
+          xArea: any;
+          curConfirm: any;
+          confirm: any;
+          died: any;
+          heal: any;
+          subList: any;
+        },
+        index,
       ) => {
-        const { cityList } = item;
+        const { subList } = item;
         // console.log(subList)
-        const subData: talbleItem[] = cityList.map(
+        const subData: talbleItem[] = subList.map(
           (
-            item: { cityName: any; confirmedNum: string; deadNum: string; curedNum: string; },
+            item: {
+              city: any;
+              curConfirm: string;
+              confirm: string;
+              died: string;
+              heal: string;
+            },
             key: any,
           ) => ({
-            key: item.cityName + item.confirmedNum + item.deadNum,
-            area: item.cityName,
-            curConfirm: '暂无',
-            allConfirm: parseInt(item.confirmedNum),
-            allDead: parseInt(item.deadNum),
-            allCure: parseInt(item.curedNum),
+            key: item.city,
+            area: item.city,
+            curConfirm: parseInt(item.curConfirm),
+            allConfirm: parseInt(item.confirm),
+            allDead: parseInt(item.died),
+            allCure: parseInt(item.heal),
           }),
         );
         return {
-          key: item.locationId,
-          area: item.provinceName,
-          curConfirm: parseInt(item.currentConfirmedNum),
-          allConfirm: parseInt(item.confirmedNum),
-          allDead: parseInt(item.deadNum),
-          allCure: parseInt(item.curedNum),
+          key: index,
+          area: item.xArea,
+          curConfirm: parseInt(item.curConfirm),
+          allConfirm: parseInt(item.confirm),
+          allDead: parseInt(item.died),
+          allCure: parseInt(item.heal),
           children: subData,
         };
       },
@@ -148,6 +172,19 @@ const Home = () => {
     );
     const { newslist } = response.data;
     setNewsList(newslist[0].news);
+  };
+
+  // 获取国外疫情数据
+  const getForeignData = async () => {
+    const response = await getVirusDataList();
+    const foreignList = response.data.newslist[0].desc.foreignStatistics;
+    setForeignList(foreignList);
+  };
+
+  const getCountryDataList = async () => {
+    const response = await getForeignCovidData();
+    const countryDataList = response.data.newslist;
+    setCountryDataList(countryDataList);
   };
 
   React.useEffect(() => {
@@ -193,7 +230,10 @@ const Home = () => {
           疫情趋势
         </Tabs.Tab>
         <Tabs.Tab title="国外疫情" key="foreignCovid">
-          <ForeignCovid />
+          <ForeignCovid
+            foreignList={foreignList}
+            countryDataList={countryDataList}
+          />
         </Tabs.Tab>
       </Tabs>
     </div>
