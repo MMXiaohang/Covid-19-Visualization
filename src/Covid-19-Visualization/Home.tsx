@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
-import './Home.css';
+import './home.css';
 import CovidMap from '@/covidMap/CovidMap';
 import {
   getRumor,
@@ -12,7 +12,9 @@ import {
   getVirusDataList,
   getForeignCovidData,
 } from '@/api/getData';
-
+import CovidTrend from '@/covidTrend/covidTrend';
+import CovidTrend2 from '@/covidTrend/covidTrend2';
+import CovidTrend3 from '@/covidTrend/covidTrend3';
 import ForeignCovid from '@/foreignCovid/ForeignCovid';
 
 const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
@@ -111,22 +113,39 @@ const Home = () => {
     const response = await getAreaDataTX();
     const dataList = response.data.showapi_res_body.todayDetailList;
     const dataForMap: mapItem[] = dataList.map(
-      (item: { provinceName: string; currentConfirmedNum: string; }) => ({
-        name: (item.provinceName === '黑龙江省' || item.provinceName === '内蒙古自治区') ? item.provinceName.substring(0,3) : item.provinceName.substring(0,2),
-        value: parseInt(item.currentConfirmedNum)
+      (item: { provinceName: string; currentConfirmedNum: string }) => ({
+        name:
+          item.provinceName === '黑龙江省' ||
+          item.provinceName === '内蒙古自治区'
+            ? item.provinceName.substring(0, 3)
+            : item.provinceName.substring(0, 2),
+        value: parseInt(item.currentConfirmedNum),
       }),
     );
 
     const dataForTable: talbleItem[] = dataList.map(
       (
-        item: { locationId?: any; provinceName?: any; currentConfirmedNum?: any; confirmedNum?: any; deadNum?: any; curedNum?: any; cityList?: any; },
+        item: {
+          locationId?: any;
+          provinceName?: any;
+          currentConfirmedNum?: any;
+          confirmedNum?: any;
+          deadNum?: any;
+          curedNum?: any;
+          cityList?: any;
+        },
         index: any,
       ) => {
-        const { cityList  } = item;
+        const { cityList } = item;
         // console.log(subList)
         const subData: talbleItem[] = cityList.map(
           (
-            item: { cityName: any; confirmedNum: string; deadNum: string; curedNum: string; },
+            item: {
+              cityName: any;
+              confirmedNum: string;
+              deadNum: string;
+              curedNum: string;
+            },
             key: any,
           ) => ({
             key: item.cityName + item.confirmedNum + item.deadNum,
@@ -234,7 +253,9 @@ const Home = () => {
           />
         </Tabs.Tab>
         <Tabs.Tab title="疫情趋势" key="covidTrend">
-          疫情趋势
+          <CovidTrend />
+          <CovidTrend2 />
+          <CovidTrend3 />
         </Tabs.Tab>
         <Tabs.Tab title="国外疫情" key="foreignCovid">
           <ForeignCovid
