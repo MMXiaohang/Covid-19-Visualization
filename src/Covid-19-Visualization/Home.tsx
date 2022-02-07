@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
-import './Home.css';
+import './home.css';
 import CovidMap from '@/covidMap/CovidMap';
 import {
   getRumor,
@@ -170,6 +170,7 @@ const Home = () => {
     const response = await axios.get(
       `http://api.tianapi.com/ncov/index?key=${APIKEY}`,
     );
+    console.log(response);
     const { newslist } = response.data;
     setNewsList(newslist[0].news);
   };
@@ -185,6 +186,21 @@ const Home = () => {
     const response = await getForeignCovidData();
     const countryDataList = response.data.newslist;
     setCountryDataList(countryDataList);
+  };
+  // 更新最新消息网络请求
+  const updateNewsList = async curDate => {
+    const response = await axios.get(
+      `http://api.tianapi.com/ncov/index?key=${APIKEY}&date=${curDate}`,
+    );
+    const { newslist } = response.data;
+    const updateList = [...newsList, ...newslist[0].news];
+    setNewsList(updateList);
+  };
+
+  // 卸载最新消息组件相关函数
+  const deleteNewsList = () => {
+    setNewsList([]);
+    getNewsList();
   };
 
   React.useEffect(() => {
@@ -217,7 +233,11 @@ const Home = () => {
           />
         </Tabs.Tab>
         <Tabs.Tab title="最新消息" key="news">
-          <CovidNews newsList={newsList} />
+          <CovidNews
+            newsList={newsList}
+            updateNewsList={updateNewsList}
+            deleteNewsList={deleteNewsList}
+          />
         </Tabs.Tab>
         <Tabs.Tab title="辟谣信息" key="rumorInfo">
           <Rumors
