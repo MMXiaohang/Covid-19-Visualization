@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import CovidNews from '@/covidNews/CovidNews';
 import Rumors from '@/rumors/Rumors';
-import './home.css';
+import './Home.css';
 import CovidMap from '@/covidMap/CovidMap';
 import {
   getRumor,
@@ -22,7 +22,6 @@ const APIKEY = '964dc226dd5b57e892e6199735b6c55f';
 const Home = () => {
   // state
   const [rumorList, setRumorList] = useState([]);
-  const [rumorPage, setRumorPage] = useState(1);
   const [staticCount, setStaticCount] = useState<any[]>([]);
   const [currentTime, setCurrentTime] = useState('');
   const [mapData, setMapData] = useState<any[]>([]);
@@ -31,11 +30,8 @@ const Home = () => {
   const [foreignList, setForeignList] = useState<any[]>([]);
   const [countryDataList, setCountryDataList] = useState<any[]>([]);
 
-  // 记录当前生命周期中的rumorlist&page的值
-  const ref = React.useRef({ rumorList, rumorPage });
   // 初始化/拉取and更改状态
   const initData = () => {
-    getRumorList(rumorPage);
     getVirusData();
     getNewsList();
     getAreaDataList();
@@ -47,13 +43,15 @@ const Home = () => {
     const response = await getRumor(rumorPage_);
     const { newslist: rumorlist } = response.data;
     const newRumorList = [...rumorList, ...rumorlist];
+    console.log(newRumorList)
     setRumorList(newRumorList);
   };
 
-  const updateRumorPage = rumorPage_ => {
-    setRumorPage(rumorPage_);
-    // getRumorList(rumorPage);
+  const deleteRumorList = () => {
+    setRumorList([]);
   };
+
+
 
   // 获取概览数据
   const getVirusData = async () => {
@@ -200,6 +198,7 @@ const Home = () => {
     );
     const { newslist } = response.data;
     const updateList = [...newsList, ...newslist[0].news];
+    console.log(updateList)
     setNewsList(updateList);
   };
 
@@ -214,13 +213,13 @@ const Home = () => {
   }, []);
 
   // 解决setRumorList异步调用导致不能及时拿到更新后的rumorList问题
-  React.useEffect(() => {
-    const { rumorList: prevrumorList, rumorPage: prevrumorPage } = ref.current;
-    if (prevrumorList !== rumorList && prevrumorPage !== rumorPage) {
-      getRumorList(rumorPage);
-      ref.current = { rumorList, rumorPage };
-    }
-  }, [rumorList, rumorPage]);
+  // React.useEffect(() => {
+  //   const { rumorList: prevrumorList, rumorPage: prevrumorPage } = ref.current;
+  //   if (prevrumorList !== rumorList && prevrumorPage !== rumorPage) {
+  //     getRumorList(rumorPage);
+  //     ref.current = { rumorList, rumorPage };
+  //   }
+  // }, [rumorList, rumorPage]);
 
   // <Skeleton>
   return (
@@ -248,8 +247,8 @@ const Home = () => {
         <Tabs.Tab title="辟谣信息" key="rumorInfo">
           <Rumors
             rumorList={rumorList}
-            prerumorPage={rumorPage}
-            updateRumorPage={updateRumorPage}
+            getRumorList={getRumorList}
+            deleteRumorList={deleteRumorList}
           />
         </Tabs.Tab>
         <Tabs.Tab title="疫情趋势" key="covidTrend">

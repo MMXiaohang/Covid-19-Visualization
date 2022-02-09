@@ -6,7 +6,7 @@ import ObserveDOM from '@better-scroll/observe-dom';
 
 import React, { useState, useEffect, useRef } from 'react';
 
-export const ScrollView = ({ wrapHeight, prop, onPullup, children }) => {
+export const ScrollView = ({ wrapHeight, onPullup, children }) => {
   BScroll.use(PullDown);
   BScroll.use(Pullup);
   BScroll.use(ObserveDOM);
@@ -61,7 +61,7 @@ export const ScrollView = ({ wrapHeight, prop, onPullup, children }) => {
     //  每次更新都需要先把之前的pullingUp事件清除，不然会累加
     scrollObj?.off('pullingUp');
     scrollObj?.once('pullingUp', pullup);
-  }, [scrollObj, prop]);
+  });
 
   return (
     <div

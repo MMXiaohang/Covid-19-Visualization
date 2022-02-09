@@ -1,24 +1,44 @@
+import { getRumor } from '@/api/getData';
 import React from 'react';
 import rumor from './Rumors.module.css';
 import { ScrollView } from './ScrollView/ScrollView';
 
-export default function Rumors(props) {
-  const { rumorList, prerumorPage, updateRumorPage } = props;
+export default function Rumors(props: any) {
+  const [rumorPage, setRumorPage] = React.useState(1)
 
-  const handleClick = item => () => {
+  const { rumorList, getRumorList, deleteRumorList } = props;
+
+  const handleClick = (item: any) => () => {
     window.location.href = item.url;
   };
+
+  const getNewPage = () => {
+    setRumorPage(rumorPage + 1)
+  }
+
+  React.useEffect(() => {
+    getRumorList(rumorPage)
+    return () => {
+      deleteRumorList()
+    }
+  }, []);
+
+  React.useEffect(() => {
+    
+    getRumorList(rumorPage);
+      
+  }, [rumorPage]);
+
   const handlePullUp = () => {
-    updateRumorPage(Number(prerumorPage) + 1);
+    getNewPage()
   };
 
   return (
     <div>
       <ScrollView
         wrapHeight="600px"
-        prop={prerumorPage}
         onPullup={handlePullUp}>
-        {rumorList.map(item => {
+        {rumorList.map((item: any) => {
           let imgUrl = '';
           if (
             item.explain === '谣言' ||
